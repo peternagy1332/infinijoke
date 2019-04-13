@@ -1,25 +1,25 @@
 package yoga.coder.infinijoke.model
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-data class Joke(
-
-    @SerializedName("genres")
-    var genres: MutableList<String>? = null,
-
+@Entity
+data class Joke (
+    @PrimaryKey
     @SerializedName("id")
-    var id: String? = null,
+    var id: Int,
 
+    @ColumnInfo()
+    @SerializedName("id")
+    var type: String,
 
-    @SerializedName("name")
-    var name: String? = null,
+    @ColumnInfo()
+    @SerializedName("setup")
+    var setup: String,
 
-    @SerializedName("popularity")
-    var popularity: Int? = null,
-
-    @SerializedName("type")
-    var type: String? = null,
-
-    @SerializedName("uri")
-    var uri: String? = null
+    @ColumnInfo()
+    @SerializedName("punchline")
+    var punchline: String
 )

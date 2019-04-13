@@ -1,17 +1,16 @@
 package yoga.coder.infinijoke.ui.main
 
-import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
+import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
 import yoga.coder.infinijoke.R
+import yoga.coder.infinijoke.injector
+import yoga.coder.infinijoke.ui.infiniteJokes.InfiniteJokesFragment
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), MainScreen, NavigationView.OnNavigationItemSelectedListener {
@@ -19,17 +18,19 @@ class MainActivity : AppCompatActivity(), MainScreen, NavigationView.OnNavigatio
     @Inject
     lateinit var mainPresenter: MainPresenter
 
+    companion object {
+        const val KEY_ARTIST = "KEY_ARTIST"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         injector.inject(this)
 
-//        setSupportActionBar(toolbar)
+        setSupportActionBar(toolbar)
 
-//        fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-//        }
+        mainPresenter.presentInfiniteJokes()
+
 //
 //        val toggle = ActionBarDrawerToggle(
 //            this, drawer_layout, toolbar,
@@ -52,55 +53,47 @@ class MainActivity : AppCompatActivity(), MainScreen, NavigationView.OnNavigatio
         mainPresenter.detachScreen()
     }
 
-    override fun showArtists(artistSearchTerm: String) {
-        val intent = Intent(this, ArtistsActivity::class.java)
-        intent.putExtra(KEY_ARTIST, artistSearchTerm)
-        startActivity(intent)
+    override fun showFragment(fragment: Fragment) {
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.fragment_container, fragment)
+            .commit()
     }
 
-    companion object {
-        const val KEY_ARTIST = "KEY_ARTIST"
+    override fun onBackPressed() {
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            drawer_layout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
     }
 
-//    override fun onBackPressed() {
-//        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-//            drawer_layout.closeDrawer(GravityCompat.START)
-//        } else {
-//            super.onBackPressed()
-//        }
-//    }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return true
+    }
 
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        menuInflater.inflate(R.menu.main, menu)
-//        return true
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        when (item.itemId) {
-//            R.id.action_settings -> return true
-//            else -> return super.onOptionsItemSelected(item)
-//        }
-//    }
-//
-//    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-//        // Handle navigation view item clicks here.
-//        when (item.itemId) {
-//            R.id.nav_infinite_jokes -> {
-//                setContentView(R.layout.infinite_jokes)
-//            }
-//            R.id.nav_saved_jokes -> {
-//
-//            }
-//            R.id.nav_lucky -> {
-//
-//            }
-//        }
-//
-//        drawer_layout.closeDrawer(GravityCompat.START)
-//        return true
-//    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_settings -> return true
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.nav_infinite_jokes -> {
+                mainPresenter.presentInfiniteJokes()
+            }
+            R.id.nav_saved_jokes -> {
+                mainPresenter.presentSavedJokes()
+            }
+            R.id.nav_lucky -> {
+                mainPresenter.presentImFeelingLucky()
+            }
+        }
+
+        drawer_layout.closeDrawer(GravityCompat.START)
+        return true
+    }
 }

@@ -3,7 +3,8 @@ package yoga.coder.infinijoke.ui
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import java.util.concurrent.Executor
+import yoga.coder.infinijoke.ui.main.MainPresenter
+import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.inject.Singleton
 
@@ -17,11 +18,11 @@ class UIModule(private val context: Context) {
     @Singleton
     fun mainPresenter() = MainPresenter()
 
-    @Provides
-    @Singleton
-    fun jokePresenter(executor: Executor, jokeInteractor: JokeInteractor) = JokePresenter(executor, jokeInteractor)
+//    @Provides
+//    @Singleton
+//    fun jokePresenter(executor: Executor, jokeInteractor: JokesInteractor) = JokesPresenter(executor, jokeInteractor)
 
     @Provides
     @Singleton
-    fun networkExecutor(): Executor = Executors.newFixedThreadPool(1)
+    fun networkExecutor(): ExecutorService? = Executors.newFixedThreadPool(1)
 }
