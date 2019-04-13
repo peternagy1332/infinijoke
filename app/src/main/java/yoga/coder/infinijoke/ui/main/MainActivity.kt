@@ -1,12 +1,14 @@
 package yoga.coder.infinijoke.ui.main
 
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.v4.app.Fragment
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.AppCompatActivity
+import com.google.android.material.navigation.NavigationView
+import androidx.fragment.app.Fragment
+import androidx.core.view.GravityCompat
+import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.fragment.app.FragmentTransaction
 import kotlinx.android.synthetic.main.activity_main.*
 import yoga.coder.infinijoke.R
 import yoga.coder.infinijoke.injector
@@ -18,10 +20,6 @@ class MainActivity : AppCompatActivity(), MainScreen, NavigationView.OnNavigatio
     @Inject
     lateinit var mainPresenter: MainPresenter
 
-    companion object {
-        const val KEY_ARTIST = "KEY_ARTIST"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -29,23 +27,21 @@ class MainActivity : AppCompatActivity(), MainScreen, NavigationView.OnNavigatio
 
         setSupportActionBar(toolbar)
 
-        mainPresenter.presentInfiniteJokes()
+        val toggle = ActionBarDrawerToggle(
+            this, drawer_layout, toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
+        drawer_layout.addDrawerListener(toggle)
+        toggle.syncState()
 
-//
-//        val toggle = ActionBarDrawerToggle(
-//            this, drawer_layout, toolbar,
-//            R.string.navigation_drawer_open,
-//            R.string.navigation_drawer_close
-//        )
-//        drawer_layout.addDrawerListener(toggle)
-//        toggle.syncState()
-//
-//        nav_view.setNavigationItemSelectedListener(this)
+        nav_view.setNavigationItemSelectedListener(this)
     }
 
     override fun onStart() {
         super.onStart()
         mainPresenter.attachScreen(this)
+        mainPresenter.presentInfiniteJokes()
     }
 
     override fun onStop() {
@@ -54,9 +50,11 @@ class MainActivity : AppCompatActivity(), MainScreen, NavigationView.OnNavigatio
     }
 
     override fun showFragment(fragment: Fragment) {
+        nav_view.menu.close()
         supportFragmentManager
             .beginTransaction()
-            .add(R.id.fragment_container, fragment)
+            .replace(R.id.fragment_container, fragment)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .commit()
     }
 

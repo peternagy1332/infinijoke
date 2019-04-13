@@ -12,4 +12,9 @@ class JokeRepository(private val jokeDao: JokeDao) {
     suspend fun insert(joke: Joke) {
         jokeDao.insert(joke)
     }
+
+    @WorkerThread
+    suspend fun delete(joke: Joke) {
+        jokeDao.delete(joke)
+    }
 }

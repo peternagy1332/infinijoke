@@ -31,6 +31,10 @@ class JokeViewModel(application: Application): AndroidViewModel(application) {
         repository.insert(joke)
     }
 
+    fun delete(joke: Joke) = scope.launch(Dispatchers.IO) {
+        repository.delete(joke)
+    }
+
     override fun onCleared() {
         super.onCleared()
         parentJob.cancel()

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/lucky_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp"
+        android:background="?attr/selectableItemBackground"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/colorAccent"
+        app:cardElevation="3dp">
+
+    <ImageView
+            android:id="@+id/item_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:contentDescription="TODO"
+            android:scaleType="centerCrop"/>
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:layout_gravity="center"
+            android:background="@android:color/background_dark"
+            android:alpha="0.8">
+
+        <TextView
+                android:id="@+id/type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="1dp"
+                android:textSize="18sp"
+                android:textAppearance="?attr/textAppearanceCaption"
+                android:textColor="@android:color/white"/>
+
+        <TextView
+                android:id="@+id/setup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="1dp"
+                android:textAppearance="?attr/textAppearanceBody1"
+                android:textColor="@android:color/white"/>
+
+        <TextView
+                android:id="@+id/punchline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="1dp"
+                android:textAppearance="?attr/textAppearanceBody1"
+                android:textColor="@android:color/white"/>
+
+    </LinearLayout>
+
+    <FrameLayout
+            android:id="@+id/left_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp">
+
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_poo"
+                android:layout_gravity="center"
+                android:contentDescription="TODO"/>
+
+    </FrameLayout>
+
+
+    <FrameLayout
+            android:id="@+id/right_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp">
+
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_happy"
+                android:layout_gravity="center"
+                android:contentDescription="TODO"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+            android:id="@+id/top_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp">
+
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_crying"
+                android:layout_gravity="center"
+                android:contentDescription="TODO"/>
+
+    </FrameLayout>
+
+
+
+    <FrameLayout
+            android:id="@+id/bottom_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp">
+
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_vomit"
+                android:layout_gravity="center"
+                android:contentDescription="TODO"/>
+
+    </FrameLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -4,7 +4,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import yoga.coder.infinijoke.ui.main.MainPresenter
-import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import javax.inject.Singleton
 
@@ -24,5 +24,5 @@ class UIModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun networkExecutor(): ExecutorService? = Executors.newFixedThreadPool(1)
+    fun networkExecutor(): Executor = Executors.newFixedThreadPool(1)
 }

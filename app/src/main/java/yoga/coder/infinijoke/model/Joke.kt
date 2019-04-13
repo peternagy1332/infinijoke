@@ -21,5 +21,8 @@ data class Joke (
 
     @ColumnInfo()
     @SerializedName("punchline")
-    var punchline: String
+    var punchline: String,
+
+    @ColumnInfo()
+    var rating: Float
 )
