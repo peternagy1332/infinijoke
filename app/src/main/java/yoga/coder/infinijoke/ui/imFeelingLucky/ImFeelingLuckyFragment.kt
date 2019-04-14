@@ -113,7 +113,7 @@ class ImFeelingLuckyFragment : Fragment(), CardStackListener, ImFeelingLuckyScre
         manager.setTranslationInterval(8.0f)
         manager.setScaleInterval(0.95f)
         manager.setSwipeThreshold(0.3f)
-        manager.setMaxDegree(20.0f)
+        manager.setMaxDegree(40.0f)
         manager.setDirections(Direction.FREEDOM)
         manager.setCanScrollHorizontal(true)
         manager.setCanScrollVertical(true)

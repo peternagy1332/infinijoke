@@ -5,16 +5,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RatingBar
 import android.widget.TextView
-import kotlinx.android.synthetic.main.fragment_infinitejokes.view.*
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.card_joke.view.*
 import yoga.coder.infinijoke.R
 import yoga.coder.infinijoke.model.Joke
 import yoga.coder.infinijoke.viewmodel.JokeViewModel
-import java.util.*
 
 class SavedJokesAdapter(
     private val jokeViewModel: JokeViewModel,
     private val mValues: MutableList<Joke> = mutableListOf()
-): androidx.recyclerview.widget.RecyclerView.Adapter<SavedJokesAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<SavedJokesAdapter.ViewHolder>() {
+
+    var list: RecyclerView? = null
 
     fun setValues(values: List<Joke>) {
         mValues.clear()
@@ -22,9 +24,9 @@ class SavedJokesAdapter(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SavedJokesAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.fragment_infinitejokes, parent, false)
+            .inflate(R.layout.card_joke, parent, false)
         return ViewHolder(view)
     }
 
@@ -32,19 +34,25 @@ class SavedJokesAdapter(
         return mValues.size
     }
 
-    override fun onBindViewHolder(holder: SavedJokesAdapter.ViewHolder, position: Int) {
+    fun removeValue(position: Int) {
+        list?.post {
+            mValues.removeAt(position)
+            notifyItemRemoved(position)
+        }
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
         with(holder) {
-            mType.text = item.type
+            mType.visibility = View.GONE
             mSetup.text = item.setup
             mPunchline.text = item.punchline
             mRating.rating = item.rating
             mRating.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
-                if(rating == item.rating || rating == 0.0f){
+                if (rating == item.rating || rating == 0.0f) {
                     jokeViewModel.delete(item)
-                }else {
-                    item.rating = rating
-                    jokeViewModel.insert(item)
+                    val pos = mValues.indexOf(item)
+                    removeValue(position)
                 }
             }
         }
@@ -53,7 +61,7 @@ class SavedJokesAdapter(
         }
     }
 
-    inner class ViewHolder(val mView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(mView) {
+    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         var mType: TextView = mView.type
         var mSetup: TextView = mView.setup
         var mPunchline: TextView = mView.punchline

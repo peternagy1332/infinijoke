@@ -19,12 +19,14 @@ class JokeViewModel(application: Application): AndroidViewModel(application) {
     private val scope = CoroutineScope(coroutineContext)
 
     private val repository: JokeRepository
-    val allJokes: LiveData<List<Joke>>
+    val savedJokes: LiveData<List<Joke>>
+    val jokeTypes: LiveData<List<String>>
 
     init {
         val jokeDao = AppDatabase.getDatabase(application).jokeDao()
         repository = JokeRepository(jokeDao)
-        allJokes = repository.allJokes
+        savedJokes = repository.allJokes
+        jokeTypes = repository.allTypes
     }
 
     fun insert(joke: Joke) = scope.launch(Dispatchers.IO) {

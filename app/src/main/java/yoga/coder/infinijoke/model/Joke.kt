@@ -7,9 +7,6 @@ import com.google.gson.annotations.SerializedName
 
 @Entity
 data class Joke (
-    @PrimaryKey
-    @SerializedName("id")
-    var id: Int,
 
     @ColumnInfo()
     @SerializedName("id")
@@ -24,5 +21,19 @@ data class Joke (
     var punchline: String,
 
     @ColumnInfo()
-    var rating: Float
-)
+    var rating: Float,
+
+    @PrimaryKey(autoGenerate = true)
+    @SerializedName("id")
+    var id: Int? = null
+){
+    override fun equals(other: Any?): Boolean {
+        if(other !is Joke)
+            return false
+
+        if(other.id != id)
+            return false
+
+        return true
+    }
+}

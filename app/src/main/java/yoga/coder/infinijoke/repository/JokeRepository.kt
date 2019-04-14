@@ -7,6 +7,7 @@ import yoga.coder.infinijoke.model.Joke
 
 class JokeRepository(private val jokeDao: JokeDao) {
     val allJokes: LiveData<List<Joke>> = jokeDao.getAll()
+    val allTypes: LiveData<List<String>> = jokeDao.getAllTypes()
 
     @WorkerThread
     suspend fun insert(joke: Joke) {

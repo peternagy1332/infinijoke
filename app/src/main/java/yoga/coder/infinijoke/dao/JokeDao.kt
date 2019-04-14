@@ -6,8 +6,11 @@ import yoga.coder.infinijoke.model.Joke
 
 @Dao
 interface JokeDao {
-    @Query("SELECT * from joke")
+    @Query("SELECT * FROM joke")
     fun getAll(): LiveData<List<Joke>>
+
+    @Query("SELECT DISTINCT type FROM joke")
+    fun getAllTypes(): LiveData<List<String>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(joke: Joke)

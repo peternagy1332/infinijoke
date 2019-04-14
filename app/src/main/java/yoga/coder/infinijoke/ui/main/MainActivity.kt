@@ -1,5 +1,10 @@
 package yoga.coder.infinijoke.ui.main
 
+import android.app.DialogFragment
+import android.app.PendingIntent.getActivity
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import com.google.android.material.navigation.NavigationView
 import androidx.fragment.app.Fragment
@@ -8,10 +13,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.AppCompatDrawableManager
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 import yoga.coder.infinijoke.R
 import yoga.coder.infinijoke.injector
+import yoga.coder.infinijoke.ui.addJoke.AddJokeFragment
 import yoga.coder.infinijoke.ui.infiniteJokes.InfiniteJokesFragment
 import javax.inject.Inject
 
@@ -36,6 +44,18 @@ class MainActivity : AppCompatActivity(), MainScreen, NavigationView.OnNavigatio
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+
+        val fab = findViewById<FloatingActionButton>(R.id.floating_action_button)
+        fab.setImageDrawable(AppCompatDrawableManager.get().getDrawable(this, R.drawable.ic_add))
+        fab.setOnClickListener {v ->
+            val addJokeDialogFragment = AddJokeFragment()
+            addJokeDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.CustomDialog)
+            addJokeDialogFragment.show(supportFragmentManager, "ADD_JOKE")
+        }
+
+        val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
+        val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
     }
 
     override fun onStart() {
