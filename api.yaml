@@ -1,0 +1,59 @@
+swagger: "2.0"
+info:
+  description: "This is the description of the official joke API made by David Katz"
+  version: "1.0.0"
+  title: "Official Joke API"
+host: "official-joke-api.appspot.com"
+tags:
+- name: "joke"
+  description: "Base joke query endpoints"
+schemes:
+- "https"
+paths:
+  /jokes/random:
+    get:
+      tags:
+      - "joke"
+      summary: "Grabs a random joke"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+            items:
+              $ref: "#/definitions/Joke"
+  /jokes/ten:
+    get:
+      tags:
+      - "joke"
+      summary: "Grabs ten random jokes"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Joke"
+definitions:
+  Joke:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        example: 155
+      type:
+        type: "string"
+        example: "general"
+      setup:
+        type: "string"
+        example: "Want to hear my pizza joke?"
+      punchline:
+        type: "string"
+        example: "Never mind, it's too cheesy."
+externalDocs:
+  description: "Find out more about the Official Joke API"
+  url: "https://github.com/15Dkatz/official_joke_api"
